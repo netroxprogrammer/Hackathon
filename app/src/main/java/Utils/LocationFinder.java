@@ -26,9 +26,10 @@ public class LocationFinder implements LocationListener{
         if(location!=null){
             latitude=String.valueOf(location.getLatitude());
             longitude=String.valueOf(location.getLongitude());
+
+            Log.v(Constant.LOG_Constant, "LocationFinder: Latitude= "+latitude+" Longitude= "+longitude);
             UserSharePreferences.getInstance(context).setLatitude(latitude);
             UserSharePreferences.getInstance(context).setLongitude(longitude);
-            Log.v(Constant.LOG_Constant, "LocationFinder: Latitude= "+latitude+" Longitude= "+longitude);
          /*   if(latitude.equalsIgnoreCase("0.0") || longitude.equalsIgnoreCase("0.0")){
                 latitude=String.valueOf(location.getLatitude());
                 longitude=String.valueOf(location.getLongitude());

@@ -49,32 +49,6 @@ public class SendUserInformation {
         latitude = UserSharePreferences.getInstance(context).getLatitude();
         longitude = UserSharePreferences.getInstance(context).getLongitude();
 
-        if (!latitude.equalsIgnoreCase("0.0") || !longitude.equalsIgnoreCase("0.0")) {
-
-            Location();
-                  /*  new LocationFinder(context).updateLocation();
-                    UserSharePreferences.getInstance(context).setLatitude(latitude);
-                    UserSharePreferences.getInstance(context).setLongitude(longitude);
-                    Log.v(Constant.LOG_Constant,"FindLocationAgain: Runnable Function Call");*/
-        }
-        else{
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            new LocationFinder(context);
-                            Location();
-                        }
-                    },
-                    2000
-            );
-           // new LocationFinder(context);
-
-        }
-
-    }
-
-    private void Location() {
         String userNumber = new GetPhoneInformation(context).getPhoneNumber();
         Log.v(Constant.LOG_Constant, "SendUserLocation: " + latitude + " and " + longitude + " and " + userNumber);
         String url = Constant.USER_LOCATION_URL + "?UserIdNumber=" + userNumber + "&latitude=" + latitude + "&longitude=" + longitude;
@@ -90,6 +64,11 @@ public class SendUserInformation {
             }
         });
         VolleyInitializer.getInstance(context).AddRequest(sendReqest);
+
+    }
+
+    private void Location() {
+
 
     }
 }

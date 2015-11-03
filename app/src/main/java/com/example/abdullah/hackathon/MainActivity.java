@@ -1,35 +1,19 @@
 package com.example.abdullah.hackathon;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.wifi.WifiManager;
-import android.os.Debug;
+import android.content.Intent;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
-import java.io.File;
-import java.io.StringReader;
 
 import Models.InternetConnection;
 import Models.SendUserInformation;
-import Models.VolleyInitializer;
+
+import com.example.abdullah.hackathon.Services.LocationService;
 import Utils.Constant;
 import Utils.LocationFinder;
 import Utils.UserSharePreferences;
@@ -44,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setUpLayoutXml();
         SendUserId();
+        startService(new Intent(this, LocationService.class));
 
 
 
@@ -65,38 +50,13 @@ public class MainActivity extends AppCompatActivity {
         dataList=(TextView)findViewById(R.id.activity_main_txt_list);
 
     }
-    public  void sendLocation(){
-        String latitude=UserSharePreferences.getInstance(context).getLatitude();
-        String longitude=UserSharePreferences.getInstance(context).getLongitude();
-        if(!latitude.equalsIgnoreCase("0.0") || !longitude.equalsIgnoreCase("0.0")){
-            new LocationFinder(context).updateLocation();
-            new SendUserInformation(context).sendUserLocation();
-        }
-        else{
-            new LocationFinder(context).updateLocation();
-            new LocationFinder(context);
-            try{
-                Runnable runnable=new Runnable() {
-                    @Override
-                    public void run() {
-                        new SendUserInformation(context).sendUserLocation();
-                    }
-                };
-                Thread thread=new  Thread(runnable);
-                thread.sleep(5000);
-                thread.start();
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
+
     public void SendUserId(){
         InternetConnection internetConnection=new InternetConnection(getApplicationContext());
         boolean  state=internetConnection.isInternetConnected();
         if(state){
             new SendUserInformation(context).sendUserNumber();
-            sendLocation();
+
         }
         else{
             Log.v(Constant.LOG_Constant,"Internet Not Available  Please Wait");

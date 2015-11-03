@@ -35,6 +35,7 @@ public class AtomaticConnection extends BroadcastReceiver {
             sendLocation();
 
         }
+
     }
 
     public  void sendLocation(){
