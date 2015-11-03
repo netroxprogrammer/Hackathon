@@ -9,31 +9,87 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import Utils.Constant;
+import Utils.LocationFinder;
+import Utils.User;
+import Utils.UserSharePreferences;
 
 /**
  * Created by Abdullah on 10/18/2015.
  */
 public class SendUserInformation {
     private Context context;
-    public SendUserInformation(Context context){
-        this.context=context;
+    String latitude;
+    String longitude;
+
+    public SendUserInformation(Context context) {
+        this.context = context;
 
     }
-    public void sendUserNumber(){
-        String  userNumber=new GetPhoneInformation(context).getPhoneNumber();
-        String url= Constant.USER_NUMBER_URL+"?User_Number="+userNumber;
-        StringRequest sendResquest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+    public void sendUserNumber() {
+        String userNumber = new GetPhoneInformation(context).getPhoneNumber();
+        String url = Constant.USER_NUMBER_URL + "?User_Number=" + userNumber;
+
+        StringRequest sendResquest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.v(Constant.LOG_Constant, " User Number Respose: " + response.toString());
             }
-        },new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v(Constant.LOG_Constant,"User Number Response Error");
+                Log.v(Constant.LOG_Constant, "User Number Response Error");
             }
         });
         VolleyInitializer.getInstance(context).AddRequest(sendResquest);
     }
 
+    public void sendUserLocation() {
+        Thread thread = null;
+        latitude = UserSharePreferences.getInstance(context).getLatitude();
+        longitude = UserSharePreferences.getInstance(context).getLongitude();
+
+        if (!latitude.equalsIgnoreCase("0.0") || !longitude.equalsIgnoreCase("0.0")) {
+
+            Location();
+                  /*  new LocationFinder(context).updateLocation();
+                    UserSharePreferences.getInstance(context).setLatitude(latitude);
+                    UserSharePreferences.getInstance(context).setLongitude(longitude);
+                    Log.v(Constant.LOG_Constant,"FindLocationAgain: Runnable Function Call");*/
+        }
+        else{
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            new LocationFinder(context);
+                            Location();
+                        }
+                    },
+                    2000
+            );
+           // new LocationFinder(context);
+
+        }
+
+    }
+
+    private void Location() {
+        String userNumber = new GetPhoneInformation(context).getPhoneNumber();
+        Log.v(Constant.LOG_Constant, "SendUserLocation: " + latitude + " and " + longitude + " and " + userNumber);
+        String url = Constant.USER_LOCATION_URL + "?UserIdNumber=" + userNumber + "&latitude=" + latitude + "&longitude=" + longitude;
+        StringRequest sendReqest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.v(Constant.LOG_Constant, "SendUserLocation Response : " + response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v(Constant.LOG_Constant, "SendUserLocation Response Error: ");
+            }
+        });
+        VolleyInitializer.getInstance(context).AddRequest(sendReqest);
+
+    }
 }

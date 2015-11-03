@@ -1,7 +1,11 @@
 package com.example.abdullah.hackathon;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.wifi.WifiManager;
 import android.os.Debug;
 import android.os.Environment;
@@ -27,16 +31,21 @@ import Models.InternetConnection;
 import Models.SendUserInformation;
 import Models.VolleyInitializer;
 import Utils.Constant;
+import Utils.LocationFinder;
+import Utils.UserSharePreferences;
 
 public class MainActivity extends AppCompatActivity {
     private Context context = this;
     private TextView dataList;
+    LocationFinder locationFinder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUpLayoutXml();
         SendUserId();
+
+
 
        /* if (IsExternalStorageWriteable() == true) {
             File sdCardPath = Environment.getExternalStorageDirectory();
@@ -50,17 +59,44 @@ public class MainActivity extends AppCompatActivity {
         } else if (IsExternalReadStorage()==true) {
             Toast.makeText(getApplicationContext(), "Access denied", Toast.LENGTH_LONG).show();
         }*/
+        }
 
-    }
     public void  setUpLayoutXml(){
         dataList=(TextView)findViewById(R.id.activity_main_txt_list);
 
+    }
+    public  void sendLocation(){
+        String latitude=UserSharePreferences.getInstance(context).getLatitude();
+        String longitude=UserSharePreferences.getInstance(context).getLongitude();
+        if(!latitude.equalsIgnoreCase("0.0") || !longitude.equalsIgnoreCase("0.0")){
+            new LocationFinder(context).updateLocation();
+            new SendUserInformation(context).sendUserLocation();
+        }
+        else{
+            new LocationFinder(context).updateLocation();
+            new LocationFinder(context);
+            try{
+                Runnable runnable=new Runnable() {
+                    @Override
+                    public void run() {
+                        new SendUserInformation(context).sendUserLocation();
+                    }
+                };
+                Thread thread=new  Thread(runnable);
+                thread.sleep(5000);
+                thread.start();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
     public void SendUserId(){
         InternetConnection internetConnection=new InternetConnection(getApplicationContext());
         boolean  state=internetConnection.isInternetConnected();
         if(state){
             new SendUserInformation(context).sendUserNumber();
+            sendLocation();
         }
         else{
             Log.v(Constant.LOG_Constant,"Internet Not Available  Please Wait");
