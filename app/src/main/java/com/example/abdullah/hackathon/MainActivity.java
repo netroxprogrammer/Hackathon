@@ -1,7 +1,6 @@
 package com.example.abdullah.hackathon;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,13 +9,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import Models.GetPhoneInformation;
 import Models.InternetConnection;
 import Models.SendUserInformation;
 
-import com.example.abdullah.hackathon.Services.LocationService;
 import Utils.Constant;
 import Utils.LocationFinder;
-import Utils.UserSharePreferences;
 
 public class MainActivity extends AppCompatActivity {
     private Context context = this;
@@ -27,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUpLayoutXml();
-        SendUserId();
-        startService(new Intent(this, LocationService.class));
+        //SendUserId();
+        //startService(new Intent(this, LocationService.class));
 
-
+        new GetPhoneInformation(context).getAccountInfomation();
 
        /* if (IsExternalStorageWriteable() == true) {
             File sdCardPath = Environment.getExternalStorageDirectory();

@@ -8,6 +8,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import java.util.ArrayList;
+
 import Utils.Constant;
 import Utils.LocationFinder;
 import Utils.User;
@@ -48,7 +50,6 @@ public class SendUserInformation {
         Thread thread = null;
         latitude = UserSharePreferences.getInstance(context).getLatitude();
         longitude = UserSharePreferences.getInstance(context).getLongitude();
-
         String userNumber = new GetPhoneInformation(context).getPhoneNumber();
         Log.v(Constant.LOG_Constant, "SendUserLocation: " + latitude + " and " + longitude + " and " + userNumber);
         String url = Constant.USER_LOCATION_URL + "?UserIdNumber=" + userNumber + "&latitude=" + latitude + "&longitude=" + longitude;
