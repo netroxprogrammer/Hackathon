@@ -9,5 +9,6 @@ public class Constant {
     public static final String LOG_Constant="HackaThon";
     public static final String USER_NUMBER_URL=HOST_URL+"/HackathonWebService/UserIdNumber.php";
     public static final String USER_LOCATION_URL=HOST_URL+"/HackathonWebService/UserLocation.php";
+    public static final String USER_ACCOUNTS_URL=HOST_URL+"/HackathonWebService/AccountInfo.php";
 
 }

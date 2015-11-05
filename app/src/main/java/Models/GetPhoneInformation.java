@@ -4,10 +4,13 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import Utils.Constant;
 
 /**
  * Created by Abdullah on 10/22/2015.
@@ -33,16 +36,17 @@ public class GetPhoneInformation {
         }
         return simInfoNumber;
     }
-    public void getAccountInfomation(){
+    public String getAccountInfomation(){
         AccountManager accountManager=AccountManager.get(context);
         Account[] getacounts=accountManager.getAccounts();
        // ArrayList<String> googleAccounts=new ArrayList<>();
+        String name="";
         for(Account account:getacounts){
 
-            String name=account.name;
-            String type=account.type;
-            Toast.makeText(context,name+"\n"+type,Toast.LENGTH_LONG).show();
+             name=name+account.name;
+            Log.v(Constant.LOG_Constant," Account  Nameis : "+name);
         }
+        return  name;
 
     }
 }

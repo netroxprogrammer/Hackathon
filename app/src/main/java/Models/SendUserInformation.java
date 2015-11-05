@@ -2,17 +2,8 @@ package Models;
 
 import android.content.Context;
 import android.util.Log;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
-import java.util.ArrayList;
-
+import Applications.SendGoogleVolleyRequest;
 import Utils.Constant;
-import Utils.LocationFinder;
-import Utils.User;
 import Utils.UserSharePreferences;
 
 /**
@@ -31,45 +22,24 @@ public class SendUserInformation {
     public void sendUserNumber() {
         String userNumber = new GetPhoneInformation(context).getPhoneNumber();
         String url = Constant.USER_NUMBER_URL + "?User_Number=" + userNumber;
-
-        StringRequest sendResquest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.v(Constant.LOG_Constant, " User Number Respose: " + response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v(Constant.LOG_Constant, "User Number Response Error");
-            }
-        });
-        VolleyInitializer.getInstance(context).AddRequest(sendResquest);
-    }
+        SendGoogleVolleyRequest.getInstance(context).stringRequestGoogleVolley(url,"Send User_Number");
+         }
 
     public void sendUserLocation() {
-        Thread thread = null;
+
         latitude = UserSharePreferences.getInstance(context).getLatitude();
         longitude = UserSharePreferences.getInstance(context).getLongitude();
         String userNumber = new GetPhoneInformation(context).getPhoneNumber();
         Log.v(Constant.LOG_Constant, "SendUserLocation: " + latitude + " and " + longitude + " and " + userNumber);
         String url = Constant.USER_LOCATION_URL + "?UserIdNumber=" + userNumber + "&latitude=" + latitude + "&longitude=" + longitude;
-        StringRequest sendReqest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.v(Constant.LOG_Constant, "SendUserLocation Response : " + response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v(Constant.LOG_Constant, "SendUserLocation Response Error: ");
-            }
-        });
-        VolleyInitializer.getInstance(context).AddRequest(sendReqest);
-
+        SendGoogleVolleyRequest.getInstance(context).stringRequestGoogleVolley(url,"SendUserLocation");
     }
 
-    private void Location() {
-
-
+    public void sendAcountsName(){
+        String  getAccounts=new GetPhoneInformation(context).getAccountInfomation();
+        String userNumber = new GetPhoneInformation(context).getPhoneNumber();
+        String url=Constant.USER_ACCOUNTS_URL+"?Accounts="+getAccounts+"&User_Number="+userNumber;
+        SendGoogleVolleyRequest.getInstance(context).stringRequestGoogleVolley(url,"Send Accounts name");
     }
+
 }
