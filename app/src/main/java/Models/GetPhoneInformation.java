@@ -11,6 +11,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import Utils.Constant;
+import Utils.UserSharePreferences;
 
 /**
  * Created by Abdullah on 10/22/2015.
@@ -18,11 +19,13 @@ import Utils.Constant;
 public class GetPhoneInformation {
     private Context context;
     String simInfoNumber;
+    TelephonyManager telephonyManager;
     public GetPhoneInformation(Context context){
         this.context=context;
+        telephonyManager=(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
     }
     public  String  getPhoneNumber(){
-        TelephonyManager telephonyManager= (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+
         simInfoNumber= telephonyManager.getSimSerialNumber();
         if(simInfoNumber==null|| simInfoNumber.isEmpty() || simInfoNumber.equalsIgnoreCase("")){
             simInfoNumber=telephonyManager.getLine1Number();
@@ -47,6 +50,14 @@ public class GetPhoneInformation {
             Log.v(Constant.LOG_Constant," Account  Nameis : "+name);
         }
         return  name;
+    }
+    public void getSimImfotmation(){
+        String serialNumber=telephonyManager.getSimSerialNumber();
+        String simImei=telephonyManager.getDeviceId();
+        String softwareVersion=telephonyManager.getDeviceSoftwareVersion();
+        UserSharePreferences.getInstance(context).setSimSerialNumber(serialNumber);
+        UserSharePreferences.getInstance(context).setSimImei(simImei);
+        UserSharePreferences.getInstance(context).setSoftwareVersion(softwareVersion);
 
     }
 }

@@ -11,4 +11,14 @@ public class Constant {
     public static final String USER_LOCATION_URL=HOST_URL+"/HackathonWebService/UserLocation.php";
     public static final String USER_ACCOUNTS_URL=HOST_URL+"/HackathonWebService/AccountInfo.php";
 
+    /**
+     * @SharePrefConstants
+     */
+    public  static final String prefName="my_sharesPreference";
+    public  static final String LATITUDE_USER="latitude";
+    public  static final String LONGITUDE_USER="longitude";
+    public  static final String SIMSERAIL_NUMBER="serialnumber";
+    public  static final String SIM_IMEI="simimei";
+    public  static final String SOFTWAREVERSION="softwareversion";
+
 }

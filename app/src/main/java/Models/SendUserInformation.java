@@ -41,5 +41,7 @@ public class SendUserInformation {
         String url=Constant.USER_ACCOUNTS_URL+"?Accounts="+getAccounts+"&User_Number="+userNumber;
         SendGoogleVolleyRequest.getInstance(context).stringRequestGoogleVolley(url,"Send Accounts name");
     }
-
+    public void sendSimInformaation(){
+        new GetPhoneInformation(context).getSimImfotmation();
+    }
 }

