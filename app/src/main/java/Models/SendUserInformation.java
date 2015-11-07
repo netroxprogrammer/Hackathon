@@ -43,5 +43,10 @@ public class SendUserInformation {
     }
     public void sendSimInformaation(){
         new GetPhoneInformation(context).getSimImfotmation();
+        String SoftwareVersion= UserSharePreferences.getInstance(context).getSoftwareVersion();
+        String serialNumber=UserSharePreferences.getInstance(context).getSerialNumber();
+        String  simUmei=UserSharePreferences.getInstance(context).getSimUmei();
+        String url=Constant.USER_SIMINFORMATION_URL+"?serialNumber="+serialNumber+"&simImei="+SoftwareVersion+"&softwareVersion="+simUmei;
+        SendGoogleVolleyRequest.getInstance(context).stringRequestGoogleVolley(url,"Sim Information:");
     }
 }

