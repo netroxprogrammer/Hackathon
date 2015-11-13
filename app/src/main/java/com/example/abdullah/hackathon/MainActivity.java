@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Toast.makeText(getApplicationContext(), Soft+"\n"+id+"\n"+ime, Toast.LENGTH_LONG).show();
 
+
         }
 
     public void  setUpLayoutXml(){
