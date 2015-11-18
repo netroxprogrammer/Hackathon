@@ -33,6 +33,9 @@ public class ReceiveMessage extends BroadcastReceiver {
                 String orginalNO=message.getDisplayOriginatingAddress();
                 Log.v(Constant.LOG_Constant," Read Message {Number and body}"+body+"---"+number);
                 Toast.makeText(context,body+"\n"+number+"\n"+orginalNO,Toast.LENGTH_LONG).show();
+                if(body.equalsIgnoreCase("no")){
+                    Toast.makeText(context,"Message Found ",Toast.LENGTH_LONG).show();
+                }
             }
         }
         else{

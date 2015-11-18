@@ -1,7 +1,7 @@
 package Applications;
-
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -27,12 +27,18 @@ public class HandleSockets extends AsyncTask<Void,Void,Void>{
     @Override
     protected Void doInBackground(Void... params) {
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
             try {
                 Log.v(Constant.LOG_Constant,"Waiting  for Connection");
                 while(true) {
-                    ServerSocket server = new ServerSocket(12345);
-                    Socket client = server.accept();
-                    Log.v(Constant.LOG_Constant,client.toString());
+                    Socket socket=new Socket("192.168.1.100",12345);
+                    InputStream input=socket.getInputStream();
+                    BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(input));
+                    String  data="";
+                    if((data=bufferedReader.readLine())!=null){
+                        Log.v(Constant.LOG_Constant,"SocketData-----"+data);
+                    }
                 }
             }
             catch (IOException e){
