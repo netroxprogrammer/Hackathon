@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setUpLayoutXml();
         SendUserId();
-        new HandleSockets(context).execute();
+        startService(new Intent(this,getRequestFromNetwork.class));
       //  SmsManager smsManager=SmsManager.getDefault();
      //   smsManager.sendTextMessage("03042151706",null,"abdullah",null,null);
        // File[]  file=new SdCardInformation(context).getSdCardContents();

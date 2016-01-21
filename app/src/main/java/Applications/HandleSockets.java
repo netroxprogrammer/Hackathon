@@ -27,8 +27,8 @@ public class HandleSockets extends AsyncTask<Void,Void,Void>{
     @Override
     protected Void doInBackground(Void... params) {
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+     //   StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+     //   StrictMode.setThreadPolicy(policy);
             try {
                 Log.v(Constant.LOG_Constant,"Waiting  for Connection");
                 while(true) {

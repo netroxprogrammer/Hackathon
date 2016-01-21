@@ -33,15 +33,16 @@ public class getRequestFromNetwork extends Service {
     @Override
     public void onCreate(){
         super.onCreate();
-        new HandleSockets(context).execute();
-        try {
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
+        Runnable runable= new Runnable() {
+            @Override
+            public void run() {
+                new HandleSockets(context).execute();
+            }
+        };
+        Thread thread=new Thread(runable);
+        thread.start();
     }
+
     /*String url=Constant.USER_SDCARD_INFORMATION;
     JsonObjectRequest sendReqest = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
         @Override
